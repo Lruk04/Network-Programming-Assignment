@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ItemSystem;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -23,22 +24,29 @@ namespace ItemSystem
             _sprite = GetComponent<SpriteRenderer>();
 
             _targetScale *= transform.localScale.x;
-                
+
+           
             if(IsServer)
             {
-                Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), Owner.GetComponent<Collider>());
+                Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), Owner.GetComponent<Collider2D>());
             }
         }
-
+    
         public override void TriggerTrap()
         {
+            if(!IsOwner) return;
             
             if(IsServer)
             {
                 StartCoroutine(FlashColor(5));
-
+                TriggerTrapClientRpc();
                 
             }
+            else
+            { 
+                TriggerTrapServerRpc();
+            }
+            
         }
 
         private IEnumerator ScaleOverTime(Vector3 targetScale, float duration)
@@ -71,6 +79,21 @@ namespace ItemSystem
             StartCoroutine(ScaleOverTime(new Vector3(_targetScale, _targetScale, _targetScale), 1f));
         }
 
+        
+        [ServerRpc(RequireOwnership = false)]
+        private void TriggerTrapServerRpc()
+        {
+            StartCoroutine(FlashColor(5));
+            TriggerTrapClientRpc();
+            
+        }
+        [ClientRpc]
+        private void TriggerTrapClientRpc()
+        {
+            StartCoroutine(FlashColor(5));
+        }
+        
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject == Owner || _triggered) return;

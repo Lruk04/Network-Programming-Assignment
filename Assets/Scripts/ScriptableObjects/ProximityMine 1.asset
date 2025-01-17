@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d58abbe482ca2cd42942c28f19d4c965, type: 3}
-  m_Name: ProximityMine
+  m_Script: {fileID: 11500000, guid: 7f6481b052b08cd4aa6e6e792a0b29b2, type: 3}
+  m_Name: ProximityMine 1
   m_EditorClassIdentifier: 
-  ItemName: ProximityMine
+  ItemName: Proximity Mine
   Description: 
   Icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   Prefab: {fileID: 0}
+  TrapPrefab: {fileID: 6315284507113689081, guid: 29ca1caaa9657e744aed9b68861304a6, type: 3}

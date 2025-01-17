@@ -1,3 +1,5 @@
+using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,8 +10,20 @@ namespace ItemSystem
     {
         public string ItemName;
         public string Description;
+        public int ItemCount;
+        
         public Sprite Icon;
         public GameObject Prefab;
+        
+        public enum Type
+        {
+            Consumable,
+            Trap,
+            Weapon
+        }
+        
+        public Type ItemType;
+        
         
         public virtual void Use(GameObject player)
         {
