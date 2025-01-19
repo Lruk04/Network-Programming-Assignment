@@ -26,8 +26,7 @@ public class PlayerChat : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-
-        Debug.Log(mInputField);
+        
          HandleInput();
          UpdateTimer();
     }

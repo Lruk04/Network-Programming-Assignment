@@ -1,13 +1,13 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace ItemSystem
 {
-    public class InventorySystem : MonoBehaviour
+    public class InventorySystem : NetworkBehaviour
     {
         [SerializeField] private List<ItemData> _items = new List<ItemData>();
-   
-        [SerializeField] private List<Item> _itemList = new List<Item>();
+        
         
         private int _selectedItem = 0;
 
@@ -20,28 +20,30 @@ namespace ItemSystem
 
         private void Update()
         {
+            if(!IsOwner) return;
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 CycleItem();
             }
-            else if (Input.GetKeyDown(KeyCode.E))
-            {
-                DiscardSelectedItem();
-            }
+            // else if (Input.GetKeyDown(KeyCode.E))
+            // {
+            //     DiscardSelectedItem();
+            // }
             else if (Input.GetKeyDown(KeyCode.R))
             {
+              
                 UseItem(_selectedItem);
             }
         }
-        public void AddItemToinventory(ItemData itemData, int slot)
+        public void AddItemToinventory(ItemData itemDataOld, int slot)
         {
             if (slot == 1)
             {
-                _items[0] = itemData;
+                _items[0] = itemDataOld;
             }
             else if (slot == 2)
             {
-                _items[1] = itemData;
+                _items[1] = itemDataOld;
             }
         }
    
@@ -49,25 +51,23 @@ namespace ItemSystem
         {
             if(_items[slot] == null) return;
       
-            _items[slot].Use(this.gameObject);
+            _items[slot].Execute(this.gameObject);
 
 
-            switch (_items[slot].ItemType)
-            {
-                case ItemData.Type.Consumable:
-                    
-                    break;
-                case ItemData.Type.Trap:
-                    
-                    break;
-                case ItemData.Type.Weapon:
-                    
-                    
-                    break;
-            }
-            {
-                
-            }
+            // switch (_items[slot].ItemType)
+            // {
+            //     case ItemDataOld.Type.Consumable:
+            //         
+            //         break;
+            //     case ItemDataOld.Type.Trap:
+            //         
+            //         break;
+            //     case ItemDataOld.Type.Weapon:
+            //         
+            //         
+            //         break;
+            // }
+          
             
             
         }

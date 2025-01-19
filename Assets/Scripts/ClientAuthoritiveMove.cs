@@ -5,14 +5,15 @@ using UnityEngine.InputSystem;
 
 public class ClientAuthoritativeMovement : NetworkBehaviour
 {
-
+ 
+    
     public float Speed = 5;
 
     private Vector2 movement;
     void Update()
-    {
- 
+    {   
        
+        
         if (!IsOwner || !IsSpawned) return;
 
         if(PlayerStateHandling.Instance.MovementPaused)
@@ -31,4 +32,6 @@ public class ClientAuthoritativeMovement : NetworkBehaviour
         
     }
     
+    
+   
 }

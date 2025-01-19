@@ -26,10 +26,14 @@ namespace ItemSystem
             _targetScale *= transform.localScale.x;
 
            
-            if(IsServer)
+            if (IsServer)
             {
                 Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), Owner.GetComponent<Collider2D>());
+                IgnoreCollisionClientRpc(Owner);
             }
+
+
+            
         }
     
         public override void TriggerTrap()
@@ -104,7 +108,20 @@ namespace ItemSystem
             
             Debug.Log($"{TrapName} triggered by {other.name}.");
         }
+        [ClientRpc]
+        private void IgnoreCollisionClientRpc(NetworkObjectReference ownerReference)
+        {
+            if (ownerReference.TryGet(out var owner))
+            {
+                Collider2D ownerCollider = owner.GetComponent<Collider2D>();
+                Collider2D mineCollider = gameObject.GetComponent<Collider2D>();
 
+                if (ownerCollider != null && mineCollider != null)
+                {
+                    Physics2D.IgnoreCollision(mineCollider, ownerCollider);
+                }
+            }
+        }
        
     }
 }

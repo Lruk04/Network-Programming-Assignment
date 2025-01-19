@@ -5,7 +5,7 @@ using Unity.Netcode;
 namespace ItemSystem
 {
     [CreateAssetMenu( menuName = "Inventory/Item/Traps", fileName = "TrapItem")]
-    public class TrapData : ItemData
+    public class TrapDataOld : ItemDataOld
     {
         public GameObject TrapPrefab;
 
